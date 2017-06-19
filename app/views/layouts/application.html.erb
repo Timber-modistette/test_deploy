@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DojoSecrets</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<% if flash[:errors] %>
+  <% flash[:errors].each do |e| %>
+    <%= e %>
+  <% end %>
+<% end %>
+<% if flash[:notice]%>
+  <h3><%= flash[:notice]%></h3>
+<% end %>
+<% if current_user %>
+<a href="/users/<%= current_user.id %>/edit">Edit Info</a>
+<a data-confirm='Are you sure?' rel='nofollow' data-method='delete' href="/sessions/<%= current_user.id %>">Logout</a>
+<a data-confirm='Are you sure?' rel='nofollow' data-method='delete' href="/users/<%= current_user.id %>">Delete Account</a>
+  <form action="/sessions/<%=current_user.id%>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="Log Out">
+  </form>
+<% end %>
+
+<%= yield %>
+</body>
+</html>

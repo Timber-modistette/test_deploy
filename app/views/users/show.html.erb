@@ -1,0 +1,35 @@
+<h1>Welcome, <%= current_user.name%></h1>
+
+<a href="/secrets">View all messages</a>
+<form action="/users/<%= current_user.id %>/secrets" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <textarea name="secret[content]" rows="6" cols="40"></textarea>
+  <input type="hidden" name="secret[user]" value="<%= current_user.id %>"><br>
+  <input type="submit" value="Post secret">
+</form>
+<h4>Five recently posted secrets</h4>
+<div class="secrets">
+  <% @secrets.each do |secret| %>
+    <p> <%= secret.content %></p>
+    <p> <%= secret.likes.count %></p>
+    <form action="/likes" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="like[secret]" value="<%= secret.id %>">
+      <input type="submit" value="Like">
+    </form>
+    <% if secret.user === current_user %>
+      <a href="/secrets/<%= secret.id %>" data-method="delete">Delete Secret</a>
+    <% end %>
+  <% end %>
+
+</div>
+<h2>Secrets <%= current_user.name %> has liked</h2>
+<div class="secrets_liked">
+  <% @user_liked.each do |secret| %>
+    <p> <%= secret.content %></p>
+    <p> <%= secret.likes.count %></p>
+    <% if secret.user === current_user %>
+      <a href="/secrets/<%= secret.id %>" data-method="delete">Delete Secret</a>
+    <% end %>
+  <% end %>
+</div>
