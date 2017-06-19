@@ -17,6 +17,8 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  username: ubuntu
+  password:
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
@@ -58,6 +60,8 @@ development:
 test:
   <<: *default
   database: DojoSecrets_test
+  username: ubuntu
+  password:
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,5 +85,5 @@ test:
 production:
   <<: *default
   database: DojoSecrets_production
-  username: DojoSecrets
-  password: <%= ENV['DOJOSECRETS_DATABASE_PASSWORD'] %>
+  username: ubuntu
+  password:
